@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Professional Interactive Navbar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* =====================
+   Global
+===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* =====================
+   Navbar
+===================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 72px;
+    padding: 0 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1000;
+}
+
+.navbar.scrolled {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* Logo */
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Menu */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a {
+    position: relative;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+/* Hover underline */
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 0;
+    height: 2px;
+    background: #ff9800;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #ff9800;
+}
+
+/* =====================
+   Sections
+===================== */
+section {
+    min-height: 100vh;
+    padding: 150px 90px;
+}
+
+#home {
+    background: linear-gradient(135deg, #1e1e1e, #333);
+    color: white;
+}
+
+#about {
+    background: #f2f2f2;
+}
+
+#services {
+    background: #e6e6e6;
+}
+
+#contact {
+    background: #dcdcdc;
+}
+
+section h1 {
+    font-size: 46px;
+    margin-bottom: 15px;
+}
+
+section p {
+    max-width: 720px;
+    font-size: 18px;
+}
+
+/* =====================
+   Responsive
+===================== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 30px;
+        height: 64px;
+    }
+
+    .nav-links {
+        gap: 20px;
+    }
+
+    section {
+        padding: 130px 30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+    <div class="logo">MyBrand</div>
+    <ul class="nav-links">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Sections -->
+<section id="home">
+    <h1>Welcome</h1>
+    <p>Professional navbar with dynamic background color changes.</p>
+</section>
+
+<section id="about">
+    <h1>About</h1>
+    <p>The navbar background changes smoothly based on scroll position.</p>
+</section>
+
+<section id="services">
+    <h1>Services</h1>
+    <p>Clean spacing, typography, and modern UX.</p>
+</section>
+
+<section id="contact">
+    <h1>Contact</h1>
+    <p>Fully responsive and production-ready.</p>
+</section>
+
+<!-- JavaScript -->
+<script>
+const navbar = document.getElementById("navbar");
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+/* Background color change + active link */
+window.addEventListener("scroll", () => {
+    let scrollY = window.scrollY;
+
+    navbar.classList.toggle("scrolled", scrollY > 50);
+
+    /* Change navbar background color per section */
+    sections.forEach(section => {
+        const top = section.offsetTop - 200;
+        const bottom = top + section.offsetHeight;
+        const id = section.getAttribute("id");
+
+        if (scrollY >= top && scrollY < bottom) {
+            if (id === "home") navbar.style.background = "rgba(30,30,30,0.85)";
+            if (id === "about") navbar.style.background = "rgba(0,0,0,0.75)";
+            if (id === "services") navbar.style.background = "rgba(20,20,20,0.85)";
+            if (id === "contact") navbar.style.background = "rgba(0,0,0,0.9)";
+
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === "#" + id) {
+                    link.classList.add("active");
+                }
+            });
+        }
+    });
+});
+</script>
+
+</body>
+</html>
